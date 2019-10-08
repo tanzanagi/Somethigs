@@ -1,0 +1,26 @@
+function metaMeeting() {
+  var slackAccessToken = "ここにAPITokenを挿入";
+  var ss = SpreadsheetApp.openById('スプシのID');
+  var sheet = ss.getSheetByName('スプシのシート名')
+  var data = sheet.getRange(1,1,2,10).getValues();
+  
+  var meta_1 = data[1][1]
+  var meta_2 = data[1][2]
+  var meta_3 = data[1][3]
+  var meta_4 = data[1][4]
+  var meta_5 = data[1][5]
+  var meta_6 = data[1][6]
+  var meta_7 = data[1][7]
+  var meta_8 = data[1][8]
+  var meta_9 = data[1][9]
+  
+  
+  var messages = meta_1+'\n'+　meta_2+'\n'+meta_3+'\n'+meta_4+'\n'+meta_5+'\n'+meta_6+'\n'+meta_7+'\n'+meta_8+'\n'+meta_9
+  Logger.log(data)
+  var slackApp = SlackApp.create(slackAccessToken);
+  var channelId = "チャンネル名";
+  var message = messages;
+  
+  slackApp.postMessage(channelId, message);
+}
+
