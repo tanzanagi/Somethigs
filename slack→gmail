@@ -1,0 +1,27 @@
+function doPost(e) {
+  var token = PropertiesService.getScriptProperties().getProperty('SLACK_ACCESS_TOKEN');
+  var verify_token = "//Out going webhook から発行したtokenをここに設置する";
+
+  if (verify_token != e.parameter.token) {
+    throw new Error("invalid token.");
+  }
+  var text = e.parameter.text
+  var channel = "#" + e.parameter.channel_name
+  var message_link = "slack該当チャンネルへのリンク" + e.parameter.channel_id
+
+  var strTo= ['送り先のアドレス']
+  
+  // メール本文
+  var strSubject = "　"; //件名
+  var strBody = e.parameter.user_name + "のメッセージ" +"\n\n"+ text + "\n\n" ;
+  var strSender = '送信者'
+
+  //メールを送信
+  GmailApp.sendEmail(
+    strTo,
+    strSubject,
+    strBody,
+    {
+      name: strSender
+    }
+ );}
