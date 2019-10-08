@@ -1,0 +1,31 @@
+function myFunction3() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('シート名');
+  var cell = sheet.getRange(1,1,143,52);
+  var value = cell.getValues()
+  
+  var ss2 = SpreadsheetApp.openById('シートID');
+  var sheet2 = ss2.getSheetByName('貼り先シート名');
+  
+  var len = value.length
+  var i = 0
+           
+  for( var x = 0 ; x < len ; ++x ) {
+    if( x % 3 === 1 ){
+      var len2 = value[x].length
+      ++i
+      for(var y = 0; y < len2; ++y){
+        sheet2.getRange(i,y+1).setValue(value[x][y])
+       
+      }
+      
+   
+    }
+    else{
+       continue
+    }
+   
+  }
+      
+  }
+
