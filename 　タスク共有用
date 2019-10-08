@@ -1,0 +1,162 @@
+function myFunction() {
+  var slackAccessToken = "スラックToken";
+  var ss = SpreadsheetApp.openById('スプシのID') ;
+  var lastrow = ss.getSheetByName('タスク').getLastRow()
+  var datas = ss.getSheetByName('タスク').getRange(3,3,lastrow-2,9).getValues();
+  var donecolor = ss.getSheetByName('タスク').getRange(3,4).getBackground()
+  var tem1 = ''
+  var tem2 = ''
+  var tem3 = ''
+  var tem4 = '▼期限切れのタスク'
+  var tem5 = '▼今日明日〆のアクションプラン'
+  var temprate1 = tem1+'\n'+　tem2+'\n'+tem3+'\n'+'\n'+tem4
+  
+  var today = Utilities.formatDate(new Date(), 'JST', 'MMdd')
+  var dic1 = []
+  var dic2 = []
+  var dic3 = []
+  var dic4 = []
+  var type = new Date()
+  var y = 0
+  for(x in datas){
+    y = y + 1
+    if(typeof datas[x][6] === typeof type){
+       var mm = Utilities.formatDate(datas[x][6], 'JST', 'MM')
+       var dd = Utilities.formatDate(datas[x][6], 'JST', 'dd')
+       var plus = Number(dd) - 1
+       var tomorrow = mm + String(plus)
+       var thatday = mm + dd
+       
+       if(thatday < today){
+         var cellcolor = ss.getSheetByName('タスク').getRange(y+2,8).getBackground()
+         if(cellcolor === donecolor){
+           continue
+         }else{
+         dic1.push(datas[x][4])
+         dic2.push(datas[x][3])
+         }
+      
+       }else if(thatday == today||tomorrow == today){
+         var cellcolor = ss.getSheetByName('タスク').getRange(y+2,8).getBackground()
+         if(cellcolor == donecolor){
+           continue
+         }else{
+           dic3.push(datas[x][4])
+           dic4.push(datas[x][3])
+         }
+       }
+    }else{
+      continue
+    }
+  }
+ 
+  var n = '>';
+  var m = '<>';
+  var t = '<>';
+  var w = '<>';
+  var o = '<@>';
+  var  d = '<@>';
+  var m = '<@';
+  var h = '<@>'
+  var so = '@'
+  
+  var ln = []
+  var lm = []
+  var lt = []
+  var lw = []
+  var lo = []
+  var ld = []
+  var ly = []
+  var lh = []
+  var ll = []
+  var names = [n,m,t,w,o,d,m,h,so]
+  
+  var string = ""
+  var string2 = ""
+  
+  for(x in dic1){
+    if(dic1[x] == ''){
+      ln.push(dic2[x])
+    }else if(dic1[x] == ''||dic1[x] == ''){ // イニシャル被り回避
+      lm.push(dic2[x])
+    }else if(dic1[x] == ''){
+      lt.push(dic2[x])
+    }else if(dic1[x] == ''){
+      lw.push(dic2[x])
+    }else if(dic1[x] == ''){
+      lo.push(dic2[x])
+    }else if(dic1[x] == ''){
+      ld.push(dic2[x])
+    }else if(dic1[x] == ''){
+      ly.push(dic2[x])  
+    }else if(dic1[x] == ''){
+      lh.push(dic2[x])   
+    }else{
+      ll.push(dic2[x])
+    }
+  }
+  var mingos = [ln,lm,lt,lw,lo,ld,ly,lh,ll]
+  for(a in mingos){
+    if(mingos[a].length == 0){
+      continue
+    }else{
+      string = string +'\n'+'\n'+ names[a] 
+      for(var y in mingos[a]){
+        string = string +'\n'+ '・'+mingos[a][y]
+      }
+    }
+  }
+  
+  var ln = []
+  var lm = []
+  var lt = []
+  var lw = []
+  var lo = []
+  var ld = []
+  var ly = []
+  var lh = []
+  var ll = []
+  
+  for(x in dic3){
+    if(dic3[x] == ''){
+      ln.push(dic4[x])
+    }else if(dic3[x] == ''||dic3[x] == ''){
+      lm.push(dic4[x])
+    }else if(dic3[x] == ''){
+      lt.push(dic4[x])
+    }else if(dic3[x] == ''){
+      lw.push(dic4[x])
+    }else if(dic3[x] == ''){
+      lo.push(dic4[x])
+    }else if(dic3[x] == ''){
+      ld.push(dic4[x])
+    }else if(dic3[x] == ''){
+      ly.push(dic4[x])  
+    }else if(dic3[x] == ''){
+      lh.push(dic4[x])   
+    }else{
+      ll.push(dic4[x])
+    }
+  }
+  var mingos = [ln,lm,lt,lw,lo,ld,ly,lh,ll]
+  for(a in mingos){
+    if(mingos[a].length == 0){
+      continue
+    }else{
+      string2 = string2 +'\n'+'\n'+ names[a] 
+      for(var y in mingos[a]){
+        string2 = string2 +'\n'+ '・'+mingos[a][y]
+      }
+    }
+  } 
+  Logger.log(string)
+  Logger.log(string2)
+  
+  var s = temprate1 + '\n' + string + '\n' +'\n' + tem5 + '\n' + string2
+ 
+ 
+  var slackApp = SlackApp.create(slackAccessToken);
+  var channelId = "チャンネル名";
+  var message = s;
+  slackApp.postMessage(channelId, message);
+}
