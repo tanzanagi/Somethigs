@@ -1,0 +1,51 @@
+function myFunction() {
+  
+  var slackAccessToken = "tokenを入れる"
+  
+  var unread = GmailApp.getInboxUnreadCount();
+  if(unread == 0){
+    Logger.log('未読メールなし')
+  }else{
+    var threads = GmailApp.getInboxThreads(0, unread);
+    var messages = GmailApp.getMessagesForThreads(threads);
+  
+    messages.forEach(function(thread, i, array1){
+      thread.forEach(function(message, j, array2){
+      
+      if(message.getSubject() == ''){ //送信先を定める作業
+        var sender = '<＠H>'
+      }else if(message.getSubject() == ''){
+        var sender = '<@>'
+      }else if(message.getSubject() == ''){
+        var sender = '<@>'   
+      }else if(message.getSubject() == ''){
+        var sender = '<!channel>'
+      }else{
+        var sender = ''
+      }
+      
+      var from = message.getFrom() //やや横着だが送信元を定める
+      
+      message.markRead();
+      Logger.log(message.getFrom())
+      var text = message.getBody()
+      while(text.indexOf('</div>') != -1){
+        var text = text.replace('</div>','\n')
+      }//HTMLの改行表現</div>を消す
+      while(text.indexOf('<div dir="auto">') != -1){
+        var text = text.replace('<div dir="auto">','')
+      }//HTMLの<div dir="auto">を消す
+      var token = PropertiesService.getScriptProperties().getProperty('slackAccessToken');
+      var tem1 = sender
+      var tem2 = from　+ 'さんよりgmail伝えでメッセージがあります。'
+      var tem3 = text
+      var temprate = tem1+'\n'+　tem2+'\n'+'\n'+　tem3
+      
+      var slackApp = SlackApp.create(slackAccessToken);
+      var channelId = "チャンネル名";
+      slackApp.postMessage(channelId, temprate);
+  
+    })
+  })
+  }
+}
