@@ -1,0 +1,40 @@
+function myFunction() {
+  var ss1 = SpreadsheetApp.openById('1fb4AgNL9_xkj5KT15gCpwp7uSNsC06PeG15U6cURFBo').getSheetByName('シート1');
+  var ss2 = SpreadsheetApp.openById('').getSheetByName('シート2');//ここ変更
+  var str1 = 'WhitePaper acknowledgeの記載内容について'
+  var str2 = '夜分に失礼いたします'+'\n'+'いつもお世話になっております。'+ '\n' +'World Economic Forum C4IR Japan の浅野南渚と申します。'+ '\n' +'プロジェク長の藤田に変わってメール差し上げます'
+  var str3 = 'WhitePaper 作成にご協力いただきありがとうございます。'
+  var str4 = '本日は、弊社から提出するWhitePaper に関しまして、acknowledgeに掲載させていただきます皆様のお名前・所属先・役職を確認させていただくためメール致しました。以下ご確認の上、訂正点がございました場合、12/2(月曜日)正午までにその旨ご記載の上返信いただけますと幸いです。（ご承認いただけます場合は御返信頂かなくても結構でございます。）'
+  var str5 = '急なご依頼で誠に申し訳ございませんが、ご協力よろしくお願いいたします。'
+  var strs =   str2+  '\n' +'\n' +str3+ '\n' +str4+ '\n' +str5
+  var name = 'お名前：'
+  var place = 'ご所属：'
+  var position = '御役職：'
+  var p = ''
+  var sama = '様'
+  var adress = ''
+  var f = 'tafujita-tky@umin.ac.jp'
+  var last = '---' + '\n' + 'World Economic Forum C4IR Japan' + '\n' + '浅野南渚 Nagisa Asano' + '\n'+ 'nagitanzanite@gmail.com'
+  //Logger.log(strs)
+  //Logger.log(last)
+  
+  var range = ss2.getRange('A1:G17');
+  var cells = range.getValues()
+  
+  for (var person in cells){
+    var zero = cells[person][6]
+    var one = cells[person][0] + '\n' + cells[person][4] + sama
+    var two = name + cells[person][4] + '(' + cells[person][5] + ')'
+    var three = place + cells[person][0] + '(' + cells[person][2] + ')'
+    var four = position + cells[person][1] + '(' + cells[person][3] + ')'
+    
+    var recipient = cells[person][6]
+    var subject = str1
+    var passage = one+ '\n' + '\n' + strs+ '\n' + '\n' +two+ '\n' +three+ '\n' +four+ '\n' + '\n' +last
+    Logger.log(recipient)
+    Logger.log(subject)
+    Logger.log(passage)
+    //GmailApp.sendEmail(recipient,subject,passage,{cc:'tafujita-tky@umin.ac.jp',name:'浅野南渚'})
+  }
+  //Logger.log(cells)
+}
