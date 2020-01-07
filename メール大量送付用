@@ -2,7 +2,7 @@ function myFunction() {
   var ss1 = SpreadsheetApp.openById('スプしID').getSheetByName('シート1');
   var ss2 = SpreadsheetApp.openById('').getSheetByName('シート2');//ここ変更
   var str1 = '内容について'
-  var str2 = '夜分に失礼いたします'+'\n'+'いつもお世話になっております。'+ '\n' +'World Economic Forum C4IR Japan の浅野南渚と申します。'+ '\n' +'に変わってメール差し上げます'
+  var str2 = '夜分に失礼いたします'+'\n'+'いつもお世話になっております。'+ '\n' +'と申します。'+ '\n' +'に変わってメール差し上げます'
   var str3 = 'ご協力いただきありがとうございます。'
   var str4 = '本日は、を確認させていただくためメール致しました。以下ご確認の上、訂正点がございました場合、までにその旨ご記載の上返信いただけますと幸いです。（ご承認いただけます場合は御返信頂かなくても結構でございます。）'
   var str5 = '急なご依頼で誠に申し訳ございませんが、ご協力よろしくお願いいたします。'
